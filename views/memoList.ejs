@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <h1>Memos</h1>
+    <a href="/memos/add">Add New Memo</a>
+    <ul>
+        <% memos.forEach(function(memo) { %>
+            <li>
+                <%= memo.title %>: <%= memo.text %>
+                        <% if (memo.image) { %>
+                            <img src="<%= memo.image %>" alt="Memo Image" style="max-width: 200px; max-height: 200px;">
+                            <% } %>
+                                <a href="/memos/edit/<%= memo.id %>">Edit</a>
+                                <button onclick="deleteMemo('<%= memo.id %>')">Delete</button>
+            </li>
+            <% }); %>
+    </ul>
+    <script>
+        function deleteMemo(id) {
+            if (confirm('Are you sure you want to delete this memo?')) {
+                fetch('/memos/delete/' + id, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete memo');
+                        }
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Failed to delete memo');
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>
