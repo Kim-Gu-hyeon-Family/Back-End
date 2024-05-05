@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const memoRoutes = require('./routes/memo');
@@ -11,6 +12,8 @@ app.use('/memos', memoRoutes);
 app.use('/upload', imageRoutes);
 app.use('/', MainRoutes);
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
