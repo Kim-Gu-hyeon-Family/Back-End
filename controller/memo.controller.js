@@ -20,15 +20,11 @@ exports.createMemo = (req, res) => {
     if (req.file) {
         imagePath = `/uploads/${req.file.filename}`;
     }
-    // 새로운 메모의 ID를 결정하기 위해 현재 최대 ID 값을 찾습니다.
     const findMaxIdQuery = 'SELECT MAX(id) AS maxId FROM memos';
     db.query(findMaxIdQuery, (err, result) => {
         if (err) throw err;
-        // 결과가 없거나, 데이터가 없을 경우 최대 ID를 0으로 설정합니다.
         const maxId = result[0].maxId ? result[0].maxId : 0;
-        // 새로운 ID는 현재 최대 ID에 1을 더한 값입니다.
         const newId = maxId + 1;
-        // 새로운 메모를 데이터베이스에 삽입합니다.
         const query = 'INSERT INTO memos (id, title, text, image) VALUES (?, ?, ?, ?)';
         db.query(query, [newId, title, text, imagePath], (err, result) => {
             if (err) throw err;
