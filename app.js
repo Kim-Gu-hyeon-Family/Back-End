@@ -39,9 +39,9 @@ async function main() {
     app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
     // Routes
-    const memoRoutes = require('./routes/memo');
-    const imageRoutes = require('./routes/image');
-    const MainRoutes = require('./routes/index');
+    const memoRoutes = require('./memo/routes/memo');
+    const imageRoutes = require('./image/routes/image');
+    const MainRoutes = require('./index/routes/index');
 
     app.use('/memos', memoRoutes(prisma));
     app.use('/upload', imageRoutes);
