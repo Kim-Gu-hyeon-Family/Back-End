@@ -1,7 +1,3 @@
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
-const path = require('path');
-
 exports.updateMemoImage = async (req, res, prisma) => {
     const memoId = parseInt(req.params.id);
 

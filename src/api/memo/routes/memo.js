@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const memoController = require('../controllers/memo');
-const prisma = require('../../../../prisma');
 
 module.exports = (prisma) => {
     // Read
