@@ -8,13 +8,13 @@ exports.loginUser = async (req, res) => {
         const user = await prisma.user.findUnique({ where: { email } });
 
         if (!user) {
-            return res.status(401).json({ message: 'Invalid email or password' });
+            return res.status(401).json({ status: 401, message: 'Invalid email or password' });
         }
 
         const isMatch = await comparePasswords(password, user.password);
 
         if (!isMatch) {
-            return res.status(401).json({ message: 'Invalid email or password' });
+            return res.status(401).json({ status: 401, message: 'Invalid email or password' });
         }
 
         req.session.user = {
@@ -23,6 +23,7 @@ exports.loginUser = async (req, res) => {
         };
 
         return res.status(200).json({
+            status: 200,
             message: 'Login successful',
             user: {
                 id: user.id,
@@ -31,6 +32,6 @@ exports.loginUser = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Something went wrong' });
+        res.status(500).json({ status: 500, message: 'Something went wrong' });
     }
 };
