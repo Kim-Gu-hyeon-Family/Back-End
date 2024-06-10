@@ -20,6 +20,6 @@ exports.updateMemoImage = async (req, res, prisma) => {
         res.json({ message: 'Image updated', updatedMemo });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ status: 500, error: 'Internal server error' });
     }
 };

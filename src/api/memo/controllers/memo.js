@@ -2,15 +2,15 @@
 exports.getMemos = async (_, res, prisma) => {
     try {
         const memos = await prisma.memos.findMany();
-        res.status(200).json({ title: 'Memos App', memos });
+        res.status(200).json({ status: 200, title: 'Memos App', memos });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve memos' });
+        res.status(500).json({ status: 500, error: 'Failed to retrieve memos' });
     }
 };
 
 // Create
 exports.getAddMemoForm = (_, res) => {
-    res.status(200).json({ title: 'Add New Memo' });
+    res.status(200).json({ status: 200, title: 'Add New Memo' });
 };
 
 exports.createMemo = async (req, res, prisma) => {
@@ -29,9 +29,9 @@ exports.createMemo = async (req, res, prisma) => {
                 image: imagePath,
             },
         });
-        res.status(201).json({ message: 'Memo created', memo });
+        res.status(201).json({ status: 201, message: 'Memo created', memo });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create memo' });
+        res.status(500).json({ status: 500, error: 'Failed to create memo' });
     }
 };
 
@@ -42,12 +42,12 @@ exports.getEditMemoForm = async (req, res, prisma) => {
     try {
         const memo = await prisma.memos.findUnique({ where: { id: memoId } });
         if (memo) {
-            res.status(200).json({ memo });
+            res.status(200).json({ status: 200, memo });
         } else {
-            res.status(404).json({ error: 'Memo not found' });
+            res.status(404).json({ status: 404, error: 'Memo not found' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve memo' });
+        res.status(500).json({ status: 500, error: 'Failed to retrieve memo' });
     }
 };
 
@@ -66,9 +66,9 @@ exports.updateMemo = async (req, res, prisma) => {
             where: { id: memoId },
             data: { title, text, image: imagePath },
         });
-        res.status(200).json({ message: 'Memo updated', memo });
+        res.status(200).json({ status: 200, message: 'Memo updated', memo });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to update memo' });
+        res.status(500).json({ status: 500, error: 'Failed to update memo' });
     }
 };
 
@@ -81,6 +81,6 @@ exports.deleteMemo = async (req, res, prisma) => {
         res.sendStatus(204); // No Content
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Failed to delete memo' });
+        res.status(500).json({ status: 500, error: 'Failed to delete memo' });
     }
 };
