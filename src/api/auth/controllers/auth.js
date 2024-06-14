@@ -35,3 +35,12 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ status: 500, message: 'Something went wrong' });
     }
 };
+
+exports.logoutUser = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ status: 500, message: 'Failed to logout' });
+        }
+        res.status(200).json({ status: 200, message: 'Logout successful' });
+    });
+};
