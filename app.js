@@ -3,21 +3,21 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const prisma = require('./prisma');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3030;
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
-
-
 // Middleware
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+})
+);
+
 app.use(
     session({
-        secret: process.env.SESSION_SECRET, 
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false
     })
@@ -31,12 +31,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const memoRoutes = require('./src/api/memo/routes/memo')(prisma);
 const imageRoutes = require('./src/api/image/routes/image');
 const authRoutes = require('./src/api/auth/routes/auth');
-const mainRoutes = require('./index/routes/index');
 
 app.use('/memos', memoRoutes);
 app.use('/upload', imageRoutes);
-app.use('/auth', authRoutes);
-app.use('/', mainRoutes);
+app.use('/', authRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

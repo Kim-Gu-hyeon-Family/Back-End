@@ -16,7 +16,7 @@ module.exports = (prisma) => {
     router.get('/edit/:id', (req, res) => memoController.getEditMemoForm(req, res, prisma));
 
     // Update
-    router.post('/edit/:id', upload.single('image'), (req, res) => memoController.updateMemo(req, res, prisma));
+    router.put('/edit/:id', upload.single('image'), (req, res) => memoController.updateMemo(req, res, prisma));
 
     // Delete
     router.delete('/delete/:id', (req, res) => memoController.deleteMemo(req, res, prisma));
